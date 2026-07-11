@@ -3,6 +3,7 @@ import { certifications } from "@/content/certifications";
 import { profile } from "@/content/profile";
 import { projects } from "@/content/projects";
 import { skills } from "@/content/skills";
+import { ScrollSection } from "@/components/ScrollSection";
 
 function Heading({
   eyebrow,
@@ -18,6 +19,7 @@ function Heading({
       : eyebrow.includes("Certifications")
         ? "cert-title"
         : "projects-title";
+
   return (
     <div className="section-heading">
       <p>{eyebrow}</p>
@@ -35,17 +37,24 @@ export function HomeContent() {
         aria-labelledby="hero-title"
       >
         <div className="hero-copy">
-          <p className="eyebrow">Hello, I’m</p>
+          <p className="eyebrow">Hello, I&apos;m</p>
           <h1 id="hero-title">
-            Aw Sheng
-            <br />
-            You.
+            <span>Aw Sheng</span>
+            <span>You.</span>
           </h1>
           <p className="hero-role">
             Digital Designer <span>&amp;</span> Developer
           </p>
-        <p className="hero-tagline">{profile.tagline}</p>
-        <div className="hero-chips" aria-label="Specialisms"><span>Web</span><span>Apps</span><span>Digital design</span></div>
+          <p className="hero-tagline">{profile.tagline}</p>
+          <div className="hero-chips" aria-label="Specialisms">
+            <span>Web</span>
+            <span>Apps</span>
+            <span>Digital design</span>
+          </div>
+          <div className="hero-details" aria-label="Profile highlights">
+            <p>Singapore based</p>
+            <p>Year 3 at Republic Polytechnic</p>
+          </div>
           <div className="hero-actions">
             <a className="button button--solid" href="#projects">
               View projects
@@ -55,28 +64,41 @@ export function HomeContent() {
             </a>
           </div>
         </div>
-        <p className="hero-note">
-          An original temporary mascot guides the experience.
-        </p>
       </section>
 
-      <section
+      <ScrollSection
         id="about"
-        className="about section-shell content-section"
-        aria-labelledby="about-title"
+        index="01"
+        className="about content-section"
+        side="left"
+        labelledBy="about-title"
       >
         <div className="about-copy">
-          <Heading eyebrow="01 — About">A little bit about me.</Heading>
+          <Heading eyebrow="01 - About">
+            A designer who likes making the final thing too.
+          </Heading>
           <p>{profile.about}</p>
+          <div className="about-facts" aria-label="About highlights">
+            <div className="about-fact">
+              <strong>Focus</strong>
+              <span>Design and development, together.</span>
+            </div>
+            <div className="about-fact">
+              <strong>Studying</strong>
+              <span>Diploma in Digital Design &amp; Development.</span>
+            </div>
+            <div className="about-fact">
+              <strong>Interested in</strong>
+              <span>Websites, apps, and interactive experiences.</span>
+            </div>
+          </div>
           <span
             className="button button--outline placeholder-button"
             aria-label="Resume PDF coming soon"
           >
             Resume coming soon
           </span>
-          <small>
-            Add the final resume PDF before release.
-          </small>
+          <small>Add the final resume PDF before release.</small>
         </div>
         <div className="about-visual" aria-hidden="true">
           <div className="fog-orbit">
@@ -85,14 +107,20 @@ export function HomeContent() {
             <span>curious</span>
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
-      <section
+      <ScrollSection
         id="skills"
-        className="section-shell content-section"
-        aria-labelledby="skills-title"
+        index="02"
+        className="content-section"
+        side="right"
+        labelledBy="skills-title"
       >
-        <Heading eyebrow="02 — Skills">Tools I think and build with.</Heading>
+        <Heading eyebrow="02 - Skills">Tools I think and build with.</Heading>
+        <p className="section-intro section-intro--tight">
+          A mix of interface, frontend, backend, and design tools that let me
+          move from concept to working product.
+        </p>
         <div className="skills-grid">
           {skills.map((skill, i) => (
             <article
@@ -108,14 +136,18 @@ export function HomeContent() {
             </article>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section
+      <ScrollSection
         id="certifications"
-        className="section-shell content-section"
-        aria-labelledby="cert-title"
+        index="03"
+        className="content-section"
+        side="left"
+        labelledBy="cert-title"
       >
-        <Heading eyebrow="03 — Certifications">Learning, made visible.</Heading>
+        <Heading eyebrow="03 - Certifications">
+          Learning, made visible.
+        </Heading>
         <div className="cert-grid">
           {certifications.map((cert, i) => (
             <article className="cert-card" key={cert.title}>
@@ -140,20 +172,29 @@ export function HomeContent() {
             </article>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section
+      <ScrollSection
         id="projects"
-        className="section-shell content-section projects"
-        aria-labelledby="projects-title"
+        index="04"
+        className="content-section projects"
+        side="right"
+        labelledBy="projects-title"
       >
-        <Heading eyebrow="04 — Selected work">Projects with purpose.</Heading>
+        <Heading eyebrow="04 - Selected work">Projects with purpose.</Heading>
         <p className="section-intro">
-          Two builds where design choices meet practical engineering.
+          Two builds where design choices meet practical engineering and the
+          product logic had to hold up too.
         </p>
         <div className="project-list">
           {projects.map((project, i) => (
-            <article className="project-card" key={project.slug}>
+            <article
+              className={`project-card ${i % 2 === 1 ? "project-card--reverse" : ""}`}
+              key={project.slug}
+              data-project-index={i}
+            >
+              <div className="mascot-grip mascot-grip--left" aria-hidden="true" />
+              <div className="mascot-grip mascot-grip--right" aria-hidden="true" />
               <div
                 className={`project-preview project-preview--${i + 1}`}
                 role="img"
@@ -161,9 +202,12 @@ export function HomeContent() {
               >
                 <span className="preview-index">0{i + 1}</span>
                 <div className="preview-window">
-                  <i />
-                  <i />
-                  <i />
+                  <div className="preview-dots" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                  </div>
+                  <strong>{project.name}</strong>
                   <p>{project.media[0].caption}</p>
                 </div>
               </div>
@@ -190,27 +234,41 @@ export function HomeContent() {
             </article>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section
+      <ScrollSection
         id="contact"
-        className="contact section-shell content-section"
-        aria-labelledby="contact-title"
+        index="05"
+        className="contact content-section"
+        side="left"
+        labelledBy="contact-title"
       >
-        <p className="eyebrow">05 — Contact</p>
-        <h2 id="contact-title">
-          Have a project, opportunity, or idea in mind? <em>Let’s connect.</em>
-        </h2>
-        <div className="contact-links">
-          <a href={`mailto:${profile.email}`}>
-            {profile.email}
-            <span aria-hidden="true">↗</span>
-          </a>
-          <a href={profile.linkedin} target="_blank" rel="noreferrer">
-            LinkedIn<span aria-hidden="true">↗</span>
-          </a>
+        <p className="eyebrow">05 - Contact</p>
+        <div className="contact-layout">
+          <div>
+            <h2 id="contact-title">
+              Have a project, opportunity, or idea in mind? <em>Let&apos;s connect.</em>
+            </h2>
+            <p className="contact-copy">
+              I&apos;m open to conversations around design, frontend development,
+              and collaborative digital work.
+            </p>
+          </div>
+          <div className="contact-panel">
+            <p>Best way to reach me</p>
+            <div className="contact-links" aria-label="Contact links">
+              <a href={`mailto:${profile.email}`} aria-label={`Email ${profile.email}`} title={profile.email}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3V5Zm2 2v.7l7 5.1 7-5.1V7H5Zm14 10V10.2l-7 5-7-5V17h14Z" /></svg>
+                <span className="sr-only">Email</span>
+              </a>
+              <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn profile" title="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.4H3.2V19h3.3V8.4ZM4.8 3A1.9 1.9 0 1 0 4.8 6.8 1.9 1.9 0 0 0 4.8 3Zm7 5.4H8.6V19h3.3v-5.2c0-1.4.3-2.8 2.1-2.8 1.8 0 1.8 1.7 1.8 2.9V19h3.3v-5.8c0-2.9-.6-5.1-4-5.1-1.6 0-2.7.9-3.2 1.7h-.1V8.4Z" /></svg>
+                <span className="sr-only">LinkedIn</span>
+              </a>
+            </div>
+          </div>
         </div>
-      </section>
+      </ScrollSection>
     </>
   );
 }
